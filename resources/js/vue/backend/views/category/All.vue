@@ -73,7 +73,7 @@
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :sort="true" :tkey="'name'" :title="' Name'" />
                             <table-th :sort="true" :tkey="'url'" :title="'Url'" />
-                            <table-th :sort="true" :tkey="'status'" :title="'Status'" />
+                            <table-th :sort="false" :tkey="'parent'" :title="'Parent'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
@@ -91,8 +91,9 @@
                             </td>
                             <td>{{ item.url }}</td>
                             <td>
-                                <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
-                                <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
+                                {{ item.parent && item.parent.name }}
+                                <!-- <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
+                                <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span> -->
                             </td>
                             <td>
                                 <div class="table_actions">
@@ -150,7 +151,7 @@
                                             <permission-button
                                                 :permission="'can_delete'"
                                                 :to="{}"
-                                                :click="()=>call_store(`${store_prefix}_destroy`,item.id)"
+                                                :click="()=>call_store(`destroy_${store_prefix}`,item.id)"
                                                 :click_param="item.id"
                                                 :classList="''">
                                                 <i class="fa text-danger fa-trash"></i>
@@ -219,7 +220,7 @@ export default {
             `fetch_${store_prefix}s`,
             `soft_delete_${store_prefix}`,
             `restore_${store_prefix}`,
-            `${store_prefix}_destroy`,
+            `destroy_${store_prefix}`,
             `export_${store_prefix}_all`,
             `export_selected_${store_prefix}_csv`,
         ]),

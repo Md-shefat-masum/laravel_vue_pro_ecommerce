@@ -212,19 +212,20 @@ class StoreModule {
             },
 
             /** store data */
-            [`store_${store_prefix}`]: function ({ state }, event) {
+            [`store_${store_prefix}`]: async function ({ state }, event) {
                 let form_data = new FormData(event);
-                axios.post(`/${api_prefix}/store`, form_data).then((res) => {
+                await axios.post(`/${api_prefix}/store`, form_data).then((res) => {
                     event.reset();
+                    document.querySelector(".file_preview").innerHTML = "";
                     window.s_alert("new data been created");
                 });
             },
 
             /** update data */
-            [`update_${store_prefix}`]: function ({ state }, event) {
+            [`update_${store_prefix}`]:async function ({ state }, event) {
                 let form_data = new FormData(event);
                 form_data.append("id", state[store_prefix].id);
-                axios.post(`/${api_prefix}/update`, form_data).then((res) => {
+                await axios.post(`/${api_prefix}/update`, form_data).then((res) => {
                     /** reset loaded user_role after data update */
                     // this.commit(`set_${store_prefix}`, null);
                     window.s_alert("data updated");
@@ -232,12 +233,12 @@ class StoreModule {
             },
 
             /** store data canvas form */
-            [`upload_${store_prefix}_create_canvas_input`]: function ({
+            [`upload_${store_prefix}_create_canvas_input`]: async function ({
                 state,
             }) {
                 const { form_values, form_inputs, form_data } =
                     window.get_form_data(`.${store_prefix}_canvas_create_form`);
-                axios
+                await axios
                     .post(`/${api_prefix}/canvas-store`, form_data)
                     .then((res) => {
                         window.s_alert("new role been created");
@@ -259,11 +260,11 @@ class StoreModule {
                         window.render_form_errors(object, "data-name");
                     });
             },
-            [`upload_${store_prefix}_edit_canvas_input`]: function ({ state }) {
+            [`upload_${store_prefix}_edit_canvas_input`]: async function ({ state }) {
                 const { form_values, form_inputs, form_data } =
                     window.get_form_data(`.${store_prefix}_canvas_edit_form`);
                 form_data.append("id", state[store_prefix].id);
-                axios
+                await axios
                     .post(`/${api_prefix}/canvas-update`, form_data)
                     .then((res) => {
                         window.s_alert("role updated");
@@ -294,12 +295,30 @@ class StoreModule {
             ) {
                 let cconfirm = await window.s_confirm("Deactive");
                 if (cconfirm) {
-                    axios
+                    await axios
                         .post(`/${api_prefix}/soft-delete`, { id })
                         .then(({ data }) => {
                             dispatch(`fetch_${store_prefix}s`);
                             window.s_alert(
                                 `${store_prefix} has been deactivated`
+                            );
+                        });
+                }
+            },
+
+            /** Permanently delete , will be hidden from list */
+            [`destroy_${store_prefix}`]: async function (
+                { state, getters, dispatch },
+                id
+            ) {
+                let cconfirm = await window.s_confirm("Permenently delete");
+                if (cconfirm) {
+                    await axios
+                        .post(`/${api_prefix}/destroy`, { id })
+                        .then(({ data }) => {
+                            dispatch(`fetch_${store_prefix}s`);
+                            window.s_alert(
+                                `${store_prefix} has been Permenently delted`
                             );
                         });
                 }

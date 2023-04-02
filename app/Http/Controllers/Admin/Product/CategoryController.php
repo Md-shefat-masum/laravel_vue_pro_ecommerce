@@ -24,7 +24,13 @@ class CategoryController extends Controller
             $status = request()->status;
         }
 
-        $query = Category::where('status', $status)->orderBy($orderBy, $orderByType);
+        $query = Category::where('status', $status)
+            ->with([
+                'parent' => function($q){
+                    return $q->select('id','name','url','parent_id');
+                },
+            ])
+            ->orderBy($orderBy, $orderByType);
 
         if (request()->has('search_key')) {
             $key = request()->search_key;
@@ -213,10 +219,15 @@ class CategoryController extends Controller
         }
 
         $data = Category::find(request()->id);
+        if(file_exists(public_path($data->category_image))){
+            unlink(public_path($data->category_image));
+        }
         if($data && $data->products()->count()){
             $data->products()->detach();
         }
         $data->delete();
+
+        return response()->json('category deleted successfully');
     }
 
     public function restore()

@@ -10,7 +10,7 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="call_store(`store_${store_prefix}`,$event.target)" autocomplete="false">
+            <form @submit.prevent="store_categorys($event.target)" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
@@ -22,7 +22,7 @@
                                         :keyup="make_slug"
                                     />
                                 </div>
-                                <div class="form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div class="form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Url`"
                                         :name="`url`"
@@ -97,14 +97,18 @@ export default {
             `fetch_${store_prefix}_check_exists`,
             `generateSlug`,
         ]),
+        store_categorys: async function(target){
+            await this[`store_${store_prefix}`](target);
+            await this[`fetch_${store_prefix}_all_json`]();
+        },
         call_store: function(name, params=null){
             this[name](params)
         },
         make_slug: debounce( async function({value}){
             this.slug = '/'+ await this.generateSlug(value);
             let check = await this[`fetch_${store_prefix}_check_exists`](this.slug);
-            console.log(this.slug, check);
-        },200),
+            // console.log(this.slug, check);
+        },1000),
 
     },
     computed: {
