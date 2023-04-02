@@ -29,6 +29,16 @@ const actions = {
             commit(`set_${store_prefix}_all_json`, res.data);
         });
     },
+    [`fetch_${store_prefix}_check_exists`]: async function ({ commit }, url) {
+        let res = await axios.post("/category/check-exists",{url});
+        return res.data;
+    },
+    generateSlug: function(context, str_data="") {
+        return str_data
+          .toLowerCase() // convert to lowercase
+          .replace(/[^a-z0-9]+/g, '-') // replace all non-alphanumeric characters with hyphens
+          .replace(/(^-|-$)+/g, '') // remove hyphens from the beginning or end of the string
+      }
 };
 
 // mutators

@@ -15,17 +15,24 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
                             <div class="admin_form form_1">
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Name`"
                                         :name="`name`"
+                                        :keyup="make_slug"
                                     />
                                 </div>
                                 <div class="form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Url`"
                                         :name="`url`"
+                                        :value="typeof slug == 'string'?slug:''"
+                                        :keyup="make_slug"
                                     />
+                                </div>
+                                <div class="form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="description"></textarea>
                                 </div>
 
                                 <div class="form-group d-grid align-content-start gap-1 mb-2 " >
@@ -42,10 +49,7 @@
                                     <cat-list-radio :list="nested_cats"></cat-list-radio>
                                 </div>
 
-                                <div class="form-group full_width d-grid align-content-start gap-1 mb-2 " >
-                                    <label for="description">Description</label>
-                                    <textarea class="form-control" id="description" name="description"></textarea>
-                                </div>
+
 
                             </div>
 
@@ -64,6 +68,7 @@
 </template>
 
 <script>
+import debounce from 'debounce';
 import { mapActions, mapGetters } from 'vuex'
 import InputField from '../components/InputField.vue'
 import CatListRadio from './components/CatListRadio.vue';
@@ -77,21 +82,30 @@ export default {
         return {
             /** store prefix for JSX */
             store_prefix,
-            route_prefix
+            route_prefix,
+            slug:'',
         }
     },
     created: async function () {
         await this[`fetch_${store_prefix}_all_json`]();
-        console.log(this.nested_cats);
+        // console.log(this.nested_cats);
     },
     methods: {
         ...mapActions([
             `store_${store_prefix}`,
             `fetch_${store_prefix}_all_json`,
+            `fetch_${store_prefix}_check_exists`,
+            `generateSlug`,
         ]),
         call_store: function(name, params=null){
             this[name](params)
         },
+        make_slug: debounce( async function({value}){
+            this.slug = '/'+ await this.generateSlug(value);
+            let check = await this[`fetch_${store_prefix}_check_exists`](this.slug);
+            console.log(this.slug, check);
+        },200),
+
     },
     computed: {
         ...mapGetters({

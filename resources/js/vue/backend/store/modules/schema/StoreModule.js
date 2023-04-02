@@ -216,7 +216,7 @@ class StoreModule {
                 let form_data = new FormData(event);
                 axios.post(`/${api_prefix}/store`, form_data).then((res) => {
                     event.reset();
-                    window.s_alert("new role been created");
+                    window.s_alert("new data been created");
                 });
             },
 

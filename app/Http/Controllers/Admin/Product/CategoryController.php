@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 class CategoryController extends Controller
 {
     public function all()
@@ -55,8 +56,6 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-
-        dd($request->all());
         $validator = Validator::make(request()->all(), [
             'name' => ['required'],
             'url' => ['required', 'unique:categories', 'min:3'],
@@ -72,12 +71,15 @@ class CategoryController extends Controller
         $data = Category::create($request->except('category_image'));
         $data->creator = Auth::user()->id;
         $data->save();
-        $data->slug = $data->id . rand(1111, 9999) . Str::slug($request->name);
+        $data->slug = $data->id . rand(1111, 9999).'-' . Str::slug($request->name);
         $data->save();
 
         if ($request->hasFile('category_image')) {
             $file = $request->file('category_image');
-            $path = Storage::put('/uploads/category_image', $file);
+            $extension = $file->getClientOriginalExtension();
+            $path = Str::slug($data->name,'-').$data->id.'.'.$extension;
+            Image::make($file)->fit(100,100)->save(public_path($path));
+            // $path = Storage::put('/uploads/category_image', $file);
             $data->category_image = $path;
             $data->save();
         }
@@ -260,5 +262,18 @@ class CategoryController extends Controller
     {
         $category_json = Category::where('status',1)->select(['id','name','parent_id'])->get();
         return response()->json($category_json);
+    }
+
+    public function check_exists()
+    {
+        $check = Category::where('url',request()->url)->exists();
+        if($check){
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => [
+                    'url' => ['this url is exists']
+                ],
+            ], 422);
+        }
     }
 }
