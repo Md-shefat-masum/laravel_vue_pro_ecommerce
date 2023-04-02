@@ -33,6 +33,10 @@ const actions = {
         let res = await axios.post("/category/check-exists",{url});
         return res.data;
     },
+    [`${store_prefix}_destroy`]: async function ({ commit }, id) {
+        let res = await axios.post("/category/destroy",{id});
+        return res.data;
+    },
     generateSlug: function(context, str_data="") {
         return str_data
           .toLowerCase() // convert to lowercase

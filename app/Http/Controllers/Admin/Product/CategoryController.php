@@ -77,7 +77,7 @@ class CategoryController extends Controller
         if ($request->hasFile('category_image')) {
             $file = $request->file('category_image');
             $extension = $file->getClientOriginalExtension();
-            $path = Str::slug($data->name,'-').$data->id.'.'.$extension;
+            $path = "uploads/category_image/".Str::slug($data->name,'-').$data->id.'.'.$extension;
             Image::make($file)->fit(100,100)->save(public_path($path));
             // $path = Storage::put('/uploads/category_image', $file);
             $data->category_image = $path;
@@ -201,6 +201,22 @@ class CategoryController extends Controller
 
     public function destroy()
     {
+        $validator = Validator::make(request()->all(), [
+            'id' => ['required','exists:categories,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'category not exists',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $data = Category::find(request()->id);
+        if($data && $data->products()->count()){
+            $data->products()->detach();
+        }
+        $data->delete();
     }
 
     public function restore()

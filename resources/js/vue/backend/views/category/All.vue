@@ -135,7 +135,7 @@
                                                 Deactive
                                             </permission-button>
                                         </li>
-                                        <li v-else>
+                                        <li v-if="item.status == 0">
                                             <permission-button
                                                 :permission="'can_delete'"
                                                 :to="{}"
@@ -144,6 +144,17 @@
                                                 :classList="''">
                                                 <i class="fa text-danger fa-recycle"></i>
                                                 Activate
+                                            </permission-button>
+                                        </li>
+                                        <li v-if="item.status == 0">
+                                            <permission-button
+                                                :permission="'can_delete'"
+                                                :to="{}"
+                                                :click="()=>call_store(`${store_prefix}_destroy`,item.id)"
+                                                :click_param="item.id"
+                                                :classList="''">
+                                                <i class="fa text-danger fa-trash"></i>
+                                                Permenent Delete
                                             </permission-button>
                                         </li>
                                     </ul>
@@ -208,6 +219,7 @@ export default {
             `fetch_${store_prefix}s`,
             `soft_delete_${store_prefix}`,
             `restore_${store_prefix}`,
+            `${store_prefix}_destroy`,
             `export_${store_prefix}_all`,
             `export_selected_${store_prefix}_csv`,
         ]),
