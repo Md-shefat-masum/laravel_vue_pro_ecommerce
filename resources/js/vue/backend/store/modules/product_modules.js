@@ -45,17 +45,21 @@ const actions = {
             res.data.categories?.forEach((i) => {
                 commit(`set_selected_categorys`, i);
             })
+
+            commit(`set_selected_brands`, res.data.brand);
         });
     },
 
     [`store_${store_prefix}`]: function({state, getters, commit}){
         const {form_values, form_inputs, form_data} = window.get_form_data(`.create_form`);
         // console.log(form_data, form_inputs, form_values);
-        const {get_category_selected: category} = getters;
+        const {get_category_selected: category, get_brand_selected: brand} = getters;
 
         category.forEach((i)=> {
             form_data.append('selected_categories[]',i.id);
         });
+        form_data.append('brand_id',brand[0].id);
+
         // console.log(form_data);
         form_data.append("specification", state[`${store_prefix}_specification`]);
         form_data.append("description", state[`${store_prefix}_description`]);
@@ -79,6 +83,7 @@ const actions = {
         category.forEach((i)=> {
             form_data.append('selected_categories[]',i.id);
         });
+        form_data.append('brand_id',brand[0].id);
         form_data.append("id", state[store_prefix].id);
         form_data.append("specification", state[`${store_prefix}_specification`]);
         form_data.append("description", state[`${store_prefix}_description`]);

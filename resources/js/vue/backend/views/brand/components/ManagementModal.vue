@@ -37,11 +37,12 @@
                     <table class="table table-hover table-bordered">
                         <thead class="table-light">
                             <tr>
-                                <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input"></th>
+                                <th aria-label="id">
+                                    <input v-if="this[`get_${store_prefix}_show_management_modal_qty`] != 1" @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input">
+                                    <input v-else type="checkbox" disabled class="form-check-input" >
+                                </th>
                                 <table-th :sort="true" :ariaLable="'id'" :tkey="'id'" :title="'ID'" />
                                 <table-th :sort="true" :tkey="'name'" :title="'Title'" />
-                                <table-th :sort="true" :tkey="'role_serial'" :title="'Role Serial'" />
-                                <table-th :sort="true" :tkey="'status'" :title="'Status'" />
                                 <th aria-label="actions">Actions</th>
                             </tr>
                         </thead>
@@ -56,11 +57,6 @@
                                     <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
                                         {{ item.name }}
                                     </span>
-                                </td>
-                                <td>{{ item.role_serial }}</td>
-                                <td>
-                                    <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
-                                    <span v-if="item.status == 0" class="badge bg-label-success me-1">deactive</span>
                                 </td>
                                 <td>
                                     <div class="table_actions">
@@ -115,6 +111,9 @@ const {route_prefix, store_prefix} = PageSetup;
 
 export default {
     components: { TableTh, CreateCanvas, EditCanvas },
+    props: {
+        'select_qty': Number,
+    },
     data: function(){
         return {
             /** store prefix for JSX */
@@ -125,6 +124,9 @@ export default {
     created: function(){
         this[`set_${this.store_prefix}_paginate`](9);
         this[`fetch_${this.store_prefix}s`]();
+        if(this.select_qty){
+            this[`set_${store_prefix}_show_management_modal_qty`](this.select_qty)
+        }
     },
     methods: {
         ...mapActions([`fetch_${store_prefix}s`]),
@@ -143,6 +145,7 @@ export default {
             `set_${store_prefix}_show_create_canvas`,
             `set_${store_prefix}_show_edit_canvas`,
             `set_${store_prefix}_show_management_modal`,
+            `set_${store_prefix}_show_management_modal_qty`,
         ]),
 
         call_store: function(name, params=null){
@@ -164,7 +167,8 @@ export default {
         ...mapGetters([
             `get_${store_prefix}s`,
             `get_${store_prefix}_selected`,
-            `get_${store_prefix}_show_management_modal`
+            `get_${store_prefix}_show_management_modal`,
+            `get_${store_prefix}_show_management_modal_qty`,
         ]),
     }
 };

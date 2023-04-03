@@ -77,7 +77,7 @@ class ProductController extends Controller
         $validator = Validator::make(request()->all(), [
             'product_name' => ['required'],
             'default_price' => ['required'],
-            // 'brand_id' => ['required'],
+            'brand_id' => ['required'],
             'selected_categories' => ['required'],
             'specification' => ['required'],
             'description' => ['required'],
@@ -233,7 +233,7 @@ class ProductController extends Controller
         $validator = Validator::make(request()->all(), [
             'product_name' => ['required'],
             'default_price' => ['required'],
-            // 'brand_id' => ['required'],
+            'brand_id' => ['required'],
             'selected_categories' => ['required'],
             'specification' => ['required'],
             'description' => ['required'],

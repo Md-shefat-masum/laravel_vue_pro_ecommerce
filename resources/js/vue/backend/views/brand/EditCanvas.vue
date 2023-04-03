@@ -15,12 +15,6 @@
                         :data_attr="[{name: 'name'}]"
                     />
                 </div>
-                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                    <input-field
-                        :label="`Role Serial`"
-                        :data_attr="[{name: 'role_serial'}]"
-                    />
-                </div>
                 <div class=" form-group text-center mb-2 " >
                     <button @click.prevent="call_store(`upload_${store_prefix}_edit_canvas_input`)" type="button" class="btn btn-outline-info">Submit</button>
                 </div>

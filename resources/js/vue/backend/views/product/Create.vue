@@ -34,7 +34,7 @@
 
                                 <div class="form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
-                                        :label="`Default price`"
+                                        :label="`price`"
                                         :name="`default_price`"
                                     />
                                 </div>
@@ -55,6 +55,15 @@
                                         :type="`number`"
                                         :value="1"
                                     />
+                                </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <div>
+                                        <label class="mb-2 text-capitalize">
+                                            Select Brand
+                                        </label>
+                                        <BrandManagementModal :select_qty="1"/>
+                                    </div>
                                 </div>
 
                                 <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
@@ -175,13 +184,14 @@
 <script>
 import { mapActions, mapMutations } from 'vuex'
 import InputField from '../components/InputField.vue'
-/** store and route prefix for export object use */
 import NestedCategoryModal from '../category/components/NestedCategoryModal.vue';
+import BrandManagementModal from '../brand/components/ManagementModal.vue';
+/** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
 
 export default {
-    components: { InputField, NestedCategoryModal },
+    components: { InputField, BrandManagementModal, NestedCategoryModal },
     data: function(){
         return {
             /** store prefix for JSX */

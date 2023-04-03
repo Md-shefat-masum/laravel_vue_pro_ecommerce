@@ -103,6 +103,7 @@ class StoreModule {
 
             /* trigger showing data modal */
             [`${store_prefix}_show_management_modal`]: false,
+            [`${store_prefix}_show_management_modal_qty`]: 20,
 
             /* trigger showing data form canvas */
             [`${store_prefix}_show_create_canvas`]: false,
@@ -150,6 +151,7 @@ class StoreModule {
             [`get_${store_prefix}_show_create_canvas`]: (state) => state[`${store_prefix}_show_create_canvas`],
             [`get_${store_prefix}_show_edit_canvas`]: (state) => state[`${store_prefix}_show_edit_canvas`],
             [`get_${store_prefix}_show_management_modal`]: (state) => state[`${store_prefix}_show_management_modal`],
+            [`get_${store_prefix}_show_management_modal_qty`]: (state) => state[`${store_prefix}_show_management_modal_qty`],
         };
 
         return getters;
@@ -513,6 +515,9 @@ class StoreModule {
 
             /** set selected data array */
             [`set_selected_${store_prefix}s`]: function (state, data) {
+                if(!data){
+                    return 0;
+                }
                 let temp_selected = state[`${store_prefix}_selected`];
                 let check_index = temp_selected.findIndex((i) => i.id == data.id);
                 if (check_index >= 0) {
@@ -525,6 +530,12 @@ class StoreModule {
                     temp_selected.push(data);
                 }
                 state[`${store_prefix}_selected`] = temp_selected;
+
+                if(state[`${store_prefix}_show_management_modal_qty`] == 1 && temp_selected.length){
+                    state[`${store_prefix}_selected`] = [{...temp_selected[temp_selected.length - 1]}];
+                    [...document.querySelectorAll(`input[type="checkbox"]`)].forEach(el=>el.checked=false);
+                    event.target.checked = true;
+                }
             },
 
             /** select all data */
@@ -582,6 +593,9 @@ class StoreModule {
             /** trigger data management modal */
             [`set_${store_prefix}_show_management_modal`]: function (state, trigger = true) {
                 state[`${store_prefix}_show_management_modal`] = trigger; // true or false
+            },
+            [`set_${store_prefix}_show_management_modal_qty`]: function (state, qty) {
+                state[`${store_prefix}_show_management_modal_qty`] = qty; // true or false
             },
 
             /** trigger data create canvas ( sidebar) */

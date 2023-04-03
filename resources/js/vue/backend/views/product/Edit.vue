@@ -17,36 +17,26 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="admin_form form_1" v-if="this[`get_${store_prefix}`]">
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div class="full_width form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Name`"
                                         :name="`product_name`"
                                         :value="this[`get_${store_prefix}`]['product_name']"
                                     />
                                 </div>
+                                <div class="form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <input-field
+                                        :label="`search keywords`"
+                                        :name="`search_keywords`"
+                                        :value="this[`get_${store_prefix}`]['search_keywords']"
+                                    />
+                                </div>
+
                                 <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Price`"
                                         :name="`default_price`"
                                         :value="this[`get_${store_prefix}`]['default_price']"
-                                    />
-                                </div>
-
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <div>
-                                        <label class="mb-2 text-capitalize">
-                                            Select Cateogry
-                                        </label>
-                                        <!-- <CategoryManagementModal/> -->
-                                        <nested-category-modal></nested-category-modal>
-                                    </div>
-                                </div>
-
-                                <div class="form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <input-field
-                                        :label="`search keywords`"
-                                        :name="`search_keywords`"
-                                        :value="this[`get_${store_prefix}`]['search_keywords']"
                                     />
                                 </div>
 
@@ -66,6 +56,25 @@
                                         :value="this[`get_${store_prefix}`]['track_inventory_on_the_variant_level_low_stock']"
                                         :type="`number`"
                                     />
+                                </div>
+
+                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <div>
+                                        <label class="mb-2 text-capitalize">
+                                            Select Brand
+                                        </label>
+                                        <BrandManagementModal :select_qty="1"/>
+                                    </div>
+                                </div>
+
+                                <div class="full_width form-group d-grid align-content-start gap-1 mb-2 " >
+                                    <div>
+                                        <label class="mb-2 text-capitalize">
+                                            Select Cateogry
+                                        </label>
+                                        <!-- <CategoryManagementModal/> -->
+                                        <nested-category-modal></nested-category-modal>
+                                    </div>
                                 </div>
 
                                 <div class="full_width mb-2 row">
@@ -171,11 +180,12 @@
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import InputField from '../components/InputField.vue'
 import NestedCategoryModal from '../category/components/NestedCategoryModal.vue';
+import BrandManagementModal from '../brand/components/ManagementModal.vue';
 /** store and route prefix for export object use */
 import PageSetup from './PageSetup';
 const {route_prefix, store_prefix} = PageSetup;
 export default {
-    components: { InputField, NestedCategoryModal },
+    components: { InputField, NestedCategoryModal, BrandManagementModal },
     data: function(){
         return {
             /** store prefix for JSX */

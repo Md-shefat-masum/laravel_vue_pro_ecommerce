@@ -69,8 +69,9 @@
                 <table class="table table-hover table-bordered">
                     <thead class="table-light">
                         <tr>
-                            <th><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
+                            <th aria-label="id"><input @click="call_store(`set_select_all_${store_prefix}s`)" type="checkbox" class="form-check-input check_all"></th>
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
+                            <table-th :ariaLable="'image'" :title="'Image'"/>
                             <table-th :sort="true" :tkey="'name'" :title="' Name'" />
                             <table-th :sort="true" :tkey="'url'" :title="'Url'" />
                             <table-th :sort="false" :tkey="'parent'" :title="'Parent'" />
@@ -84,6 +85,9 @@
                                 <input v-else @change="call_store(`set_selected_${store_prefix}s`,item)" type="checkbox" class="form-check-input">
                             </td>
                             <td>{{ item.id }}</td>
+                            <td>
+                                <img :src="item.image" width="100px" alt="">
+                            </td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
                                     {{ item.name }}
