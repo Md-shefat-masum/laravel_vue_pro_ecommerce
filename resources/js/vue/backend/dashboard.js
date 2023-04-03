@@ -26,7 +26,7 @@ Vue.component('user-management-modal', require('./views/users/components/UserMan
 Vue.component('ex-app', require('./App.vue').default);
 
 if (document.getElementById('app')) {
-    new Vue({
+    window.vue = new Vue({
         store,
         router,
         el: '#app',

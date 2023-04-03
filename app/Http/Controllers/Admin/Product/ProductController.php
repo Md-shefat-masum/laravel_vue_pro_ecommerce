@@ -267,17 +267,28 @@ class ProductController extends Controller
         $product_images = $product->related_image()->get();
         for ($i=1; $i <=4; $i++) {
             if(request()->hasFile('image'.$i)){
-                $single_image = $product_images[$i-1];
-                $path = public_path($single_image->image);
-                if(file_exists($path)){
-                    unlink($path);
-                }
-                try {
-                    $path = $this->store_product_file(request()->file('image'.$i));
-                    $single_image->image = $path;
-                    $single_image->save();
-                } catch (\Throwable $e) {
-                    return response()->json($e, 500);
+                if(isset($product_images[$i-1])){
+                    $single_image = $product_images[$i-1];
+                    $path = public_path($single_image->image);
+                    if(file_exists($path)){
+                        unlink($path);
+                    }
+                    try {
+                        $path = $this->store_product_file(request()->file('image'.$i));
+                        $single_image->image = $path;
+                        $single_image->save();
+                    } catch (\Throwable $e) {
+                        return response()->json($e, 500);
+                    }
+                }else{
+                    try {
+                        $path = $this->store_product_file(request()->file('image'.$i));
+                        $product_image = $this->save_image($path);
+                        $product_image->product_id = $product->id;
+                        $product_image->save();
+                    } catch (\Throwable $e) {
+                        return response()->json($e, 500);
+                    }
                 }
             }
         }

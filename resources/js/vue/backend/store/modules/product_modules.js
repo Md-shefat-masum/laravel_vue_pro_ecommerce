@@ -30,7 +30,10 @@ const actions = {
             var images=[];
             for (let i = 0; i < res.data.related_images.length; i++) {
                 let el = res.data.related_images[i];
-                images.push(`<img src="/${el.image}"/>`)
+                images.push(`
+                    <img src="/${el.image}"/>
+                    <span onclick="remove_product_image" class="text-danger cursor-pointer">remove</span>
+                `);
             }
             setTimeout(() => {
                 var file_previews = document.querySelectorAll('.file_preview');
