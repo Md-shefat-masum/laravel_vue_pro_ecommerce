@@ -185,7 +185,7 @@
                     }
                 }
             }
-            
+
             &:first-child {
                 td {
                     .table_actions {
@@ -200,11 +200,13 @@
                 }
             }
 
-            
+
 
             td {
                 text-align: center;
             }
+
+
         }
     }
 
@@ -221,6 +223,10 @@
             border-radius: 5px;
         }
     }
+
+    .v_html table tbody tr td{
+            text-align: left;
+        }
 }
 
 .upload_demo_form{

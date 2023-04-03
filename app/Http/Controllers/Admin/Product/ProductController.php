@@ -52,7 +52,16 @@ class ProductController extends Controller
             'categories' => function($q){
                 return $q->select('categories.id','categories.parent_id','categories.name');
             },
-        ])->first();
+            'brand' => function($q){
+                return $q->select('id','name');
+            },
+            'discount' => function($q){
+                return $q->where('discount_last_date','>',Carbon::today())->orderBy('id','DESC');
+            },
+        ])
+        ->withSum('stocks', 'qty')
+        ->withSum('sales', 'qty')
+        ->first();
 
         if (!$data) {
             return response()->json([

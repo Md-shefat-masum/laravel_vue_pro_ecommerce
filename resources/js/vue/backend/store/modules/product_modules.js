@@ -35,7 +35,7 @@ const actions = {
             setTimeout(() => {
                 var file_previews = document.querySelectorAll('.file_preview');
                 [...file_previews].forEach((i,index)=>{
-                    i.innerHTML = images[index]
+                    i.innerHTML = images[index] || ''
                 })
             }, 1000);
 

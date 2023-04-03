@@ -15,17 +15,20 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-12">
                             <div class="admin_form form_1">
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`Name`"
                                         :name="`product_name`"
+                                        :keyup="onchage_handler"
                                     />
                                 </div>
 
-                                <div class="form-group d-grid align-content-start gap-1 mb-2 " >
+                                <div class="form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`search keywords`"
                                         :name="`search_keywords`"
+                                        :value="slug"
+                                        :keyup="onchage_handler"
                                     />
                                 </div>
 
@@ -36,31 +39,12 @@
                                     />
                                 </div>
 
-                                <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <div>
-                                        <label class="mb-2 text-capitalize">
-                                            Select Cateogry
-                                        </label>
-                                        <!-- <CategoryManagementModal/> -->
-                                        <nested-category-modal></nested-category-modal>
-                                    </div>
-                                </div>
-
-                                <!-- <div class=" form-group d-grid align-content-start gap-1 mb-2 " >
-                                    <label for="category_id">Category</label>
-                                    <select name="category_id" id="category_id" class="form-control">
-                                        <option value="">Computer</option>
-                                        <option value="">Laptop</option>
-                                        <option value="">Monitor</option>
-                                        <option value="">Desktop component</option>
-                                    </select>
-                                </div> -->
-
                                 <div class="form-group d-grid align-content-start gap-1 mb-2 " >
                                     <input-field
                                         :label="`stock`"
                                         :name="`track_inventory_on_the_variant_level_stock`"
                                         :type="`number`"
+                                        :value="5"
                                     />
                                 </div>
 
@@ -69,7 +53,18 @@
                                         :label="`low stock`"
                                         :name="`track_inventory_on_the_variant_level_low_stock`"
                                         :type="`number`"
+                                        :value="1"
                                     />
+                                </div>
+
+                                <div class=" form-group full_width d-grid align-content-start gap-1 mb-2 " >
+                                    <div>
+                                        <label class="mb-2 text-capitalize">
+                                            Select Cateogry
+                                        </label>
+                                        <!-- <CategoryManagementModal/> -->
+                                        <nested-category-modal></nested-category-modal>
+                                    </div>
                                 </div>
 
                                 <div class="full_width mb-2 row">
@@ -144,6 +139,7 @@
                                             <input-field
                                                 :label="`Page Title`"
                                                 :name="`page_title`"
+                                                :value="slug"
                                             />
                                         </div>
 
@@ -151,12 +147,13 @@
                                             <input-field
                                                 :label="`product url`"
                                                 :name="`product_url`"
+                                                :value="slug"
                                             />
                                         </div>
 
                                         <div class="form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                             <label for="meta_description">Meta Description</label>
-                                            <textarea class="form-control" id="meta_description" name="meta_description"></textarea>
+                                            <textarea class="form-control" id="meta_description" :value="slug" name="meta_description"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -189,7 +186,9 @@ export default {
         return {
             /** store prefix for JSX */
             store_prefix,
-            route_prefix
+            route_prefix,
+
+            slug: '',
         }
     },
     created: function () {
@@ -197,7 +196,10 @@ export default {
         this.initEditor();
     },
     methods: {
-        ...mapActions([`store_${store_prefix}`]),
+        ...mapActions([
+            `store_${store_prefix}`,
+            `generateSlug`,
+        ]),
         ...mapMutations([
             `set_clear_selected_categorys`,
             `set_${store_prefix}_description`,
@@ -205,6 +207,10 @@ export default {
         ]),
         call_store: function(name, params=null){
             this[name](params)
+        },
+        onchage_handler: async function({value}){
+            this.slug = await this[`generateSlug`](value);
+            // console.log(value, this.slug);
         },
         initEditor: function(){
             let that = this;

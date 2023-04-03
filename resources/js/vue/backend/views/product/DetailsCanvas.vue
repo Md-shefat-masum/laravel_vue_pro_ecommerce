@@ -2,7 +2,15 @@
     <div class="canvas_backdrop" :class="{active:this[`get_${store_prefix}`]}" @click="$event.target.classList.contains('canvas_backdrop') && call_store(`set_${store_prefix}`,null)">
         <div class="content right" v-if="this[`get_${store_prefix}`]">
             <div class="content_header">
-                <h3 class="offcanvas-title">Details</h3>
+                <div class="d-flex gap-2">
+                    <h3 class="offcanvas-title">Details</h3>
+                    <a href="" @click.prevent=" $router.push({name:`Details${route_prefix}`,params:{id: product.id}})"  class="btn rounded-pill btn-outline-warning" >
+                        <i class="fa fa-eye me-5px"></i>
+                        <span >
+                            Show Details
+                        </span>
+                    </a>
+                </div>
                 <i @click="call_store(`set_${store_prefix}`,null)" class="fa fa-times"></i>
             </div>
             <div class="cotent_body">
@@ -68,7 +76,10 @@ export default {
         },
     },
     computed: {
-        ...mapGetters([`get_${store_prefix}`])
+        ...mapGetters({
+            [`get_${store_prefix}`]: `get_${store_prefix}`,
+            product: `get_${store_prefix}`,
+        })
     }
 }
 </script>

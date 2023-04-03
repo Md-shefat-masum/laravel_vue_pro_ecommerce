@@ -15,107 +15,116 @@
             <div class="card-body pb-5 ">
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
-                        <div v-if="this[`get_${store_prefix}`]" class="container">
-                            <div class="header">
-                                <div class="row r1">
-                                    <div class="col-md-12">
-                                        <h3>{{ this[`get_${store_prefix}`].product_name }}</h3>
-                                    </div>
-                                    <div class="col-md-5 mt-2">
-                                        <img v-for="(image,index) in this[`get_${store_prefix}`].related_images" :key="index" :src="'/'+image.image" style="margin:5px;" width="100px">
-                                    </div>
-                                    <!-- <div class="col-md-3 text-right pqr"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div> -->
-                                    <h3 class="text-left para mt-2">Price: {{ this[`get_${store_prefix}`].default_price }}</h3>
+                        <div v-if="product" class="container">
+                            <div class="text-center">
+                                <img v-for="(image,index) in product.related_images" :key="index" :src="'/'+image.image" style="margin:5px;width: 150px">
+                            </div>
+                            <div class="py-5">
+                                <h4>Details</h4>
+                                <hr>
+                                <table class="table details_table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Title</th>
+                                            <td>:</td>
+                                            <td>{{ product.product_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Search keywords</th>
+                                            <td>:</td>
+                                            <td>{{ product.product_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total Stock</th>
+                                            <td>:</td>
+                                            <td>{{ product.stocks_sum_qty }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total Sold</th>
+                                            <td>:</td>
+                                            <td>{{ product.sales_sum_qty }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Current Stock</th>
+                                            <td>:</td>
+                                            <td>{{ product.stocks_sum_qty - product.sales_sum_qty }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Low Stock</th>
+                                            <td>:</td>
+                                            <td>{{ product.track_inventory_on_the_variant_level_low_stock }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Price</th>
+                                            <td>:</td>
+                                            <td>{{ product.default_price }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Discount Price</th>
+                                            <td>:</td>
+                                            <td>{{ product.discount && product.discount.discount_amount }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Discount %</th>
+                                            <td>:</td>
+                                            <td>{{ product.discount && product.discount.discount_percent }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Discount End</th>
+                                            <td>:</td>
+                                            <td>
+                                                <span v-if="product.discount">
+                                                    {{ new Date(product.discount.discount_last_date ).toDateString() }},
+                                                    {{ new Date(product.discount.discount_last_date ).toLocaleTimeString() }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Brand</th>
+                                            <td>:</td>
+                                            <td>{{ product.brand && product.brand.name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Categories</th>
+                                            <td>:</td>
+                                            <td>
+                                                <div v-if="product.categories.length">
+                                                    <span v-for="(cat, index) in product.categories" :key="cat.id">
+                                                        {{ cat.name }}
+
+                                                        <i v-if="index < product.categories.length - 1">, &nbsp;</i>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Created at</th>
+                                            <td>:</td>
+                                            <td>
+                                                {{ new Date(product.created_at ).toDateString() }},
+                                                {{ new Date(product.created_at ).toLocaleTimeString() }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Updated at</th>
+                                            <td>:</td>
+                                            <td>
+                                                {{ new Date(product.updated_at ).toDateString() }},
+                                                {{ new Date(product.updated_at ).toLocaleTimeString() }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="mt-4 v_html">
+                                    <h4>Description</h4>
+                                    <div v-html="product.description"></div>
+                                </div>
+                                <div class="mt-4 v_html">
+                                    <h4>Specification</h4>
+                                    <div v-html="product.specification"></div>
                                 </div>
                             </div>
-                            <div class="container-body mt-1">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item">
-                                                <b v-if="this[`get_${store_prefix}`].status == 1">Status:  &nbsp;</b><span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-success me-1">active</span>
-                                                <b v-if="this[`get_${store_prefix}`].status == 0">Status:  &nbsp;</b> <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-danger me-1">deactive</span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Created At: </b> &nbsp;
-                                                {{ new Date(this[`get_${store_prefix}`].created_at).toDateString()  }}, &nbsp;
-                                                {{ new Date(this[`get_${store_prefix}`].created_at).toLocaleTimeString()  }}
-                                            </li>
-                                            <li class="list-group-item">
-                                                <b>Updated At: </b> &nbsp;
-                                                {{ new Date(this[`get_${store_prefix}`].updated_at).toDateString()  }}, &nbsp;
-                                                {{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleTimeString()  }}
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <h2 style="margin-top: 20px;">Description</h2>
-                                    <div
-                                        class="product_details_backend mt-3"
-                                        v-html="this[`get_${store_prefix}`].description"></div>
-                                    <div
-                                        class="product_details_backend mt-3"
-                                        v-html="this[`get_${store_prefix}`].specification"></div>
-                                    <!-- <div class="col-md-5 p-0 klo">
-                                        <ul>
-                                            <li>100% Quality</li>
-                                            <li>Free Shipping</li>
-                                            <li>Easy Returns</li>
-                                            <li>12 Months Warranty</li>
-                                            <li>EMI Starting from (On Credit Cards)</li>
-                                            <li>Normal Delivery : 4-5 Days</li>
-                                            <li>Express Delivery : 2-3 Days</li>
-                                            <li>COD Available (All Over India)</li>
-                                        </ul>
-                                    </div> -->
-
-
-                                </div>
-                            </div>
-
                         </div>
-                        <!-- <table v-if="this[`get_${store_prefix}`]" class="table table-bordered details_table">
-                            <tr>
-                                <td>id</td>
-                                <td>{{ this[`get_${store_prefix}`].id }}</td>
-                            </tr>
-                            <tr>
-                                <td>Name</td>
-                                <td>{{ this[`get_${store_prefix}`].product_name }}</td>
-                            </tr>
-
-                            <tr>
-                                <td>price</td>
-                                <td>{{ this[`get_${store_prefix}`].default_price }}</td>
-                            </tr>
-                            <tr>
-                                <td>Description</td>
-                                <td>
-                                    <span v-html="this[`get_${store_prefix}`].description"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>status </td>
-                                <td>
-                                    <span v-if="this[`get_${store_prefix}`].status == 1" class="badge bg-label-success me-1">active</span>
-                                    <span v-if="this[`get_${store_prefix}`].status == 0" class="badge bg-label-success me-1">deactive</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>created at </td>
-                                <td>
-                                    {{ new Date(this[`get_${store_prefix}`].created_at).toDateString()  }}, &nbsp;
-                                    {{ new Date(this[`get_${store_prefix}`].created_at).toLocaleTimeString()  }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>updated at </td>
-                                <td>
-                                    {{ new Date(this[`get_${store_prefix}`].updated_at).toDateString()  }}, &nbsp;
-                                    {{ new Date(this[`get_${store_prefix}`].updated_at).toLocaleTimeString()  }}
-                                </td>
-                            </tr>
-                        </table> -->
                     </div>
                 </div>
             </div>
@@ -159,6 +168,27 @@ export default {
         // }, 1000);
 
     },
+    updated: function(){
+        [
+            ".v_html h2",
+            ".v_html span",
+            ".v_html p",
+            ".v_html div",
+            ".v_html table",
+            ".v_html table tbody",
+            ".v_html table thead",
+            ".v_html table tr",
+            ".v_html table tr td",
+            ".v_html table tr th",
+            ".v_html strong",
+            ".v_html figure",
+            ".v_html section",
+        ].forEach(i=>document.querySelectorAll(i).forEach(i=>i.setAttribute('style','')));
+        [...document.querySelectorAll('.v_html table')]
+            .forEach(i=>{
+                i.setAttribute('class','table text-start');
+            })
+    },
     methods: {
         ...mapActions([
             `fetch_${store_prefix}`,
@@ -171,11 +201,25 @@ export default {
         },
     },
     computed: {
-        ...mapGetters([`get_${store_prefix}`])
+        ...mapGetters({
+            product: `get_${store_prefix}`,
+        })
     }
 }
 </script>
 
 <style scoped>
+    .details_table tbody tr th:nth-child(1){
+        width: 200px;
+    }
+    .details_table tbody tr td:nth-child(2){
+        width: 3px;
+    }
+    .details_table tbody tr td:nth-child(3){
+        text-align: left;
+    }
 
+    .list_card .v_html tbody tr td{
+        text-align: left;
+    }
 </style>
