@@ -32,7 +32,7 @@ const actions = {
                 let el = res.data.related_images[i];
                 images.push(`
                     <img src="/${el.image}"/>
-                    <span onclick="remove_product_image" class="text-danger cursor-pointer">remove</span>
+                    <span onclick="remove_product_image(event, ${el.id})" class="text-danger cursor-pointer">remove</span>
                 `);
             }
             setTimeout(() => {

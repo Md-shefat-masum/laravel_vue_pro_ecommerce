@@ -8,6 +8,7 @@ require('./plugins/demo_data_load');
 require('./plugins/get_selector_form_data');
 require('./plugins/set_selector_form_data');
 require('./plugins/ck_editor_config');
+require('./plugins/remove_product_image');
 
 window.debounce = require('debounce');
 window.CsvBuilder = require('filefy').CsvBuilder;

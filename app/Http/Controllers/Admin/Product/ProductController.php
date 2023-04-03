@@ -303,6 +303,19 @@ class ProductController extends Controller
         ], 200);
     }
 
+    public function delete_related_image()
+    {
+        $id = request()->id;
+        $related_image = ProductImage::find($id);
+        if($related_image){
+            if(file_exists(public_path($related_image->image))){
+                unlink(public_path($related_image->image));
+            }
+            $related_image->delete();
+        }
+        return response()->json('file deleted');
+    }
+
     public function save_image($path){
         return ProductImage::create([
             // 'product_id' => $product->id,

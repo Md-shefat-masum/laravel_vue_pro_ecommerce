@@ -85,6 +85,7 @@ Route::group(
                 Route::post('/store','Admin\Product\ProductController@store');
                 Route::post('/canvas-store','Admin\Product\ProductController@canvas_store');
                 Route::post('/update','Admin\Product\ProductController@update');
+                Route::post('/delete-related-image','Admin\Product\ProductController@delete_related_image');
                 Route::post('/canvas-update','Admin\Product\ProductController@canvas_update');
                 Route::post('/soft-delete','Admin\Product\ProductController@soft_delete');
                 Route::post('/destroy','Admin\Product\ProductController@destroy');
