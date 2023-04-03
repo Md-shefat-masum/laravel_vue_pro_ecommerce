@@ -10,7 +10,7 @@
                     </router-link>
                 </div>
             </div>
-            <form @submit.prevent="update_categorys($event.target)" autocomplete="false">
+            <form v-if="category" @submit.prevent="update_category($event.target)" enctype="multipart/form-data" autocomplete="false">
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="col-lg-10">
@@ -19,6 +19,7 @@
                                     <input-field
                                         :label="`Name`"
                                         :name="`name`"
+                                        :value="category.name"
                                         :keyup="make_slug"
                                     />
                                 </div>
@@ -32,7 +33,7 @@
                                 </div>
                                 <div class="form-group full_width d-grid align-content-start gap-1 mb-2 " >
                                     <label for="description">Description</label>
-                                    <textarea class="form-control" id="description" name="description"></textarea>
+                                    <textarea :value="category.description" class="form-control" id="description" name="description"></textarea>
                                 </div>
 
                                 <div class="form-group d-grid align-content-start gap-1 mb-2 " >
@@ -48,11 +49,7 @@
                                     <label for="" class="mb-2">Select Category Parent</label>
                                     <cat-list-radio :list="nested_cats"></cat-list-radio>
                                 </div>
-
-
-
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -88,11 +85,14 @@ export default {
     },
     created: async function () {
         await this[`fetch_${store_prefix}_all_json`]();
+        await this[`fetch_${store_prefix}`]({id: this.$route.params.id});
+        this.set_data();
         // console.log(this.nested_cats);
     },
     methods: {
         ...mapActions([
-            `store_${store_prefix}`,
+            `update_${store_prefix}`,
+            `fetch_${store_prefix}`,
             `fetch_${store_prefix}_all_json`,
             `fetch_${store_prefix}_check_exists`,
             `generateSlug`,
@@ -109,11 +109,36 @@ export default {
             let check = await this[`fetch_${store_prefix}_check_exists`](this.slug);
             // console.log(this.slug, check);
         },1000),
-
+        set_data: function(){
+            this.slug = this.category.slug;
+            document.querySelector('.file_preview').innerHTML = `
+                <img src="/${this.category.category_image}" />
+            `;
+            this.check_selected_categories();
+        },
+        check_selected_categories: function(){
+            setTimeout(() => {
+                if(this.category.parent_id){
+                    document.querySelector(`input[data-id="${this.category.id}"]`).checked=true;
+                }
+                let el = document.querySelector(`input[data-id="${this.category.id}"]`);
+                if(el){
+                    (function check_parent(el){
+                        if(el.parentNode){
+                            if(el.parentNode.classList?.contains('list')){
+                                el.parentNode.classList.add('d-block');
+                            }
+                            check_parent(el.parentNode)
+                        }
+                    })(el)
+                }
+            }, 500);
+        }
     },
     computed: {
         ...mapGetters({
             nested_cats: `get_${store_prefix}_all_json_nested`,
+            category: `get_${store_prefix}`,
         })
     }
 };

@@ -48,9 +48,6 @@
                                     <label for="" class="mb-2">Select Category Parent</label>
                                     <cat-list-radio :list="nested_cats"></cat-list-radio>
                                 </div>
-
-
-
                             </div>
 
                         </div>

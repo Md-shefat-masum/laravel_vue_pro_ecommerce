@@ -123,17 +123,11 @@ class CategoryController extends Controller
     public function update()
     {
         $data = Category::find(request()->id);
-        if(!$data){
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => ['name'=>['user_role not found by given id '.(request()->id?request()->id:'null')]],
-            ], 422);
-        }
-
         $validator = Validator::make(request()->all(), [
             'name' => ['required'],
             'url' => ['required'],
             'description' => ['required'],
+            'parent_id' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -147,6 +141,16 @@ class CategoryController extends Controller
         $data->url = request()->url;
         $data->description = request()->description;
         $data->update();
+
+        if (request()->hasFile('category_image')) {
+            $file = request()->file('category_image');
+            $extension = $file->getClientOriginalExtension();
+            $path = "uploads/category_image/".Str::slug($data->name,'-').$data->id.'.'.$extension;
+            Image::make($file)->fit(100,100)->save(public_path($path));
+            // $path = Storage::put('/uploads/category_image', $file);
+            $data->category_image = $path;
+            $data->save();
+        }
 
         return response()->json($data, 200);
     }
@@ -293,7 +297,12 @@ class CategoryController extends Controller
 
     public function check_exists()
     {
-        $check = Category::where('url',request()->url)->exists();
+        $check = Category::where('url',request()->url)->first();
+        if($check && request()->has('category')){
+            if($check->url == request()->category['url']){
+                return 'not exists';
+            }
+        }
         if($check){
             return response()->json([
                 'err_message' => 'validation error',

@@ -29,8 +29,16 @@ const actions = {
             commit(`set_${store_prefix}_all_json`, res.data);
         });
     },
-    [`fetch_${store_prefix}_check_exists`]: async function ({ commit }, url) {
-        let res = await axios.post("/category/check-exists",{url});
+    [`fetch_${store_prefix}_check_exists`]: async function ({state, commit }, url) {
+        let form_data = {
+            url,
+        };
+        let category = state[`${store_prefix}`];
+        if(category){
+            form_data.category = category;
+        }
+
+        let res = await axios.post("/category/check-exists",form_data);
         return res.data;
     },
     generateSlug: function(context, str_data="") {

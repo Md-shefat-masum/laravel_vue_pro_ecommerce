@@ -86,7 +86,7 @@
                             </td>
                             <td>{{ item.id }}</td>
                             <td>
-                                <img :src="item.image" width="100px" alt="">
+                                <img :src="item.category_image" width="40px" alt="">
                             </td>
                             <td>
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
