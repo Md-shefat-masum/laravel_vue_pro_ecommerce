@@ -303,6 +303,22 @@ class ProductController extends Controller
         ], 200);
     }
 
+    public function add_to_top_product()
+    {
+        $data = Product::find(request()->id);
+        if (!$data) {
+            return response()->json([
+                'err_message' => 'validation error',
+                'errors' => ['name' => ['data not found by given id ' . (request()->id ? request()->id : 'null')]],
+            ], 422);
+        }
+
+        $data->is_top_product = $data->is_top_product ? 0 : 1;
+        $data->save();
+
+        return response()->json($data->is_top_product);
+    }
+
     public function delete_related_image()
     {
         $id = request()->id;

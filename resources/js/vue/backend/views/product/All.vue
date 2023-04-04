@@ -74,6 +74,7 @@
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :title="'Image'"/>
                             <table-th :sort="true" :tkey="'product_name'" :title="'Name'" />
+                            <table-th :sort="true" :tkey="'is_top_product'" :title="'Top Product'" />
                             <table-th :sort="true" :tkey="'default_price'" :title="'Price'" />
                             <table-th :tkey="'stock'" :title="'Total Stock'" />
                             <table-th :tkey="'sold'" :title="'Total Sold'" />
@@ -101,6 +102,10 @@
                                 <span class="text-warning cursor_pointer" @click.prevent="call_store(`set_${store_prefix}`,item)">
                                     {{ item.product_name }}
                                 </span>
+                            </td>
+                            <td>
+                                <input @click="call_store(`fetch_${store_prefix}_add_to_top_product`,item.id)" type="checkbox" v-if="item.is_top_product" checked class="form-check-input">
+                                <input @click="call_store(`fetch_${store_prefix}_add_to_top_product`,item.id)" type="checkbox" v-else class="form-check-input">
                             </td>
                             <td>{{ item.default_price }}</td>
                             <td>{{ item.stocks_sum_qty }}</td>
@@ -223,6 +228,7 @@ export default {
     methods: {
         ...mapActions([
             `fetch_${store_prefix}s`,
+            `fetch_${store_prefix}_add_to_top_product`,
             `soft_delete_${store_prefix}`,
             `restore_${store_prefix}`,
             `export_${store_prefix}_all`,

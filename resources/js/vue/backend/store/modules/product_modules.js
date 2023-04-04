@@ -94,6 +94,17 @@ const actions = {
             window.s_alert("data updated");
         });
     },
+
+    [`fetch_${store_prefix}_add_to_top_product`]: async function({state}, id){
+        let res = await axios.post("/product/add-to-top-product",{id})
+        if(res.data){
+            window.s_alert("added to top product");
+        }else{
+            window.s_alert("removed from top product");
+
+        }
+        return res.data;
+    }
 }
 
 // mutators
