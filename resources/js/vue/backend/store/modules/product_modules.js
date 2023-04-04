@@ -78,7 +78,7 @@ const actions = {
 
     [`update_${store_prefix}`]: function ({ state, getters, commit }, event) {
         const {form_values, form_inputs, form_data} = window.get_form_data(`.update_form`);
-        const {get_category_selected: category} = getters;
+        const {get_category_selected: category, get_brand_selected:brand} = getters;
 
         category.forEach((i)=> {
             form_data.append('selected_categories[]',i.id);
