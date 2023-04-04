@@ -73,7 +73,7 @@
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :sort="true" :tkey="'title'" :title="'Title'" />
                             <table-th :sort="true" :tkey="'image'" :title="'Image'" />
-                            <table-th :sort="true" :tkey="'status'" :title="'Status'" />
+                            <table-th :sort="true" :tkey="'show'" :title="'Show in front'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
                     </thead>
