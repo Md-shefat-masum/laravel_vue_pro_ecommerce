@@ -18,7 +18,7 @@
 
             <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-list`" :text="`Contact Message`" :alert_count="0">
                 <left-nav-list-item :to="'AllContactMessage'" :text="'All'" />
-                <left-nav-list-item :to="'CreateContactMessage'" :text="'Create'" />
+                <!-- <left-nav-list-item :to="'CreateContactMessage'" :text="'Create'" /> -->
             </left-nav-list-group>
 
             <li class="navigation-header">
@@ -33,8 +33,7 @@
 
             <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-boxes`" :text="`Product Stock`" :alert_count="0">
                 <left-nav-list-item :to="'CreateProductStock'" :text="'Create product Stock'" />
-                <left-nav-list-item :to="'AllProductStock'" :text="'Product Stock Lists'" />
-                <!-- <left-nav-list-item :to="'AllProduct'" :text="'Product categories'" /> -->
+                <!-- <left-nav-list-item :to="'AllProductStock'" :text="'Product Stock Lists'" /> -->
             </left-nav-list-group>
 
             <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-box`" :text="`Category`" :alert_count="0">
