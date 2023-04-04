@@ -312,4 +312,31 @@ class CategoryController extends Controller
             ], 422);
         }
     }
+
+    public function add_to_top_cat()
+    {
+        $validator = Validator::make(request()->all(), [
+            'id' => ['required','exists:categories,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'err_message' => 'category not exists',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $id = request()->id;
+        $category = Category::find($id);
+        if($category->is_top_category){
+            $category->is_top_category = 0;
+            $category->save();
+            return response()->json(0);
+        }else{
+            $category->is_top_category = 1;
+            $category->save();
+            return response()->json('success');
+        }
+
+    }
 }

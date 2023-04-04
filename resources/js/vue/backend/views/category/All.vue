@@ -73,7 +73,7 @@
                             <table-th :sort="true" :tkey="'id'" :title="'ID'" :ariaLable="'id'"/>
                             <table-th :ariaLable="'image'" :title="'Image'"/>
                             <table-th :sort="true" :tkey="'name'" :title="' Name'" />
-                            <table-th :sort="true" :tkey="'url'" :title="'Url'" />
+                            <table-th :sort="true" :tkey="'is_top_category'" :title="'Top Category'" />
                             <table-th :sort="false" :tkey="'parent'" :title="'Parent'" />
                             <th aria-label="actions">Actions</th>
                         </tr>
@@ -93,7 +93,10 @@
                                     {{ item.name }}
                                 </span>
                             </td>
-                            <td>{{ item.url }}</td>
+                            <td>
+                                <input @click="call_store(`fetch_${store_prefix}_add_to_top_cat`,item.id)" type="checkbox" v-if="item.is_top_category" checked class="form-check-input">
+                                <input @click="call_store(`fetch_${store_prefix}_add_to_top_cat`,item.id)" type="checkbox" v-else class="form-check-input">
+                            </td>
                             <td>
                                 {{ item.parent && item.parent.name }}
                                 <!-- <span v-if="item.status == 1" class="badge bg-label-success me-1">active</span>
@@ -222,6 +225,7 @@ export default {
     methods: {
         ...mapActions([
             `fetch_${store_prefix}s`,
+            `fetch_${store_prefix}_add_to_top_cat`,
             `soft_delete_${store_prefix}`,
             `restore_${store_prefix}`,
             `destroy_${store_prefix}`,

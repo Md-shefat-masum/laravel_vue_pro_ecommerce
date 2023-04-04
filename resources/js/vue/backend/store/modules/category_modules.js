@@ -41,6 +41,16 @@ const actions = {
         let res = await axios.post("/category/check-exists",form_data);
         return res.data;
     },
+    [`fetch_${store_prefix}_add_to_top_cat`]: async function ({state, commit }, id) {
+        let res = await axios.post("/category/add-to-top-cat",{id})
+        if(res.data){
+            window.s_alert("added to top category");
+        }else{
+            window.s_alert("removed from top category");
+
+        }
+        return res.data;
+    },
     generateSlug: function(context, str_data="") {
         return str_data
           .toLowerCase() // convert to lowercase

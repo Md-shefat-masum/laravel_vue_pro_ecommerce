@@ -119,6 +119,7 @@ Route::group(
                 Route::post('/bulk-import','Admin\Product\CategoryController@bulk_import');
                 Route::get('/all-json','Admin\Product\CategoryController@all_json');
                 Route::post('/check-exists','Admin\Product\CategoryController@check_exists');
+                Route::post('/add-to-top-cat','Admin\Product\CategoryController@add_to_top_cat');
                 Route::get('/{id}','Admin\Product\CategoryController@show');
             });
 
