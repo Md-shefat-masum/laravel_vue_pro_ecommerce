@@ -16,6 +16,7 @@ import customer_route from './dashboard_routes/customer_route'
 import order_route from './dashboard_routes/order_route'
 import supplier_route from './dashboard_routes/supplier_route'
 import product_stock_route from './dashboard_routes/product_stock_route'
+import banner_route from './dashboard_routes/banner_route'
 
 Vue.use(VueRouter);
 window.Fire = new Vue();
@@ -38,7 +39,8 @@ const routes = [{
             order_route,
             customer_route,
             supplier_route,
-            product_stock_route
+            product_stock_route,
+            banner_route
         ]
     },
     {

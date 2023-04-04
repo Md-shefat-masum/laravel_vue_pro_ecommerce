@@ -25,28 +25,28 @@
                 <span data-i18n="Apps &amp; Pages">Product managements</span>
             </li>
 
-            <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-box`" :text="`Product`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-box`" :text="`Product`" :alert_count="0">
                 <left-nav-list-item :to="'CreateProduct'" :text="'Create product'" />
                 <left-nav-list-item :to="'AllProduct'" :text="'Product Lists'" />
                 <!-- <left-nav-list-item :to="'AllProduct'" :text="'Product categories'" /> -->
             </left-nav-list-group>
 
-            <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-boxes`" :text="`Product Stock`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-boxes`" :text="`Product Stock`" :alert_count="0">
                 <left-nav-list-item :to="'CreateProductStock'" :text="'Create product Stock'" />
                 <!-- <left-nav-list-item :to="'AllProductStock'" :text="'Product Stock Lists'" /> -->
             </left-nav-list-group>
 
-            <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-box`" :text="`Category`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-box`" :text="`Category`" :alert_count="0">
                 <left-nav-list-item :to="'CreateCategory'" :text="'Create category'" />
                 <left-nav-list-item :to="'AllCategory'" :text="'Category Lists'" />
             </left-nav-list-group>
 
-            <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-box`" :text="`Brand`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-box`" :text="`Brand`" :alert_count="0">
                 <left-nav-list-item :to="'CreateBrand'" :text="'Create Brand'" />
                 <left-nav-list-item :to="'AllBrand'" :text="'Brand Lists'" />
             </left-nav-list-group>
 
-            <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa-solid fa-truck-field`" :text="`Supplier`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa-solid fa-truck-field`" :text="`Supplier`" :alert_count="0">
                 <left-nav-list-item :to="'CreateSupplier'" :text="'Create Supplier'" />
                 <left-nav-list-item :to="'AllSupplier'" :text="'Supplier Lists'" />
             </left-nav-list-group>
@@ -55,13 +55,21 @@
                 <span data-i18n="Apps &amp; Pages">Order managements</span>
             </li>
 
-            <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-shopping-cart`" :text="`Order`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-shopping-cart`" :text="`Order`" :alert_count="0">
                 <left-nav-list-item :to="'AllOrder'" :text="'Order Lists'" />
             </left-nav-list-group>
 
-            <left-nav-list-group :role_permissions="['super_admin','admin','user']" :icon="`fa fa-users`" :text="`Customers`" :alert_count="0">
+            <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-users`" :text="`Customers`" :alert_count="0">
                 <left-nav-list-item :to="'CreateCustomer'" :text="'Create customer'" />
                 <left-nav-list-item :to="'AllCustomer'" :text="'customer Lists'" />
+            </left-nav-list-group>
+
+            <li class="navigation-header">
+                <span data-i18n="Apps &amp; Pages">Website management</span>
+            </li>
+            <left-nav-list-group :role_permissions="['super_admin','admin']" :icon="`fa fa-list`" :text="`Banners`" :alert_count="0">
+                <left-nav-list-item :to="'CreateBanner'" :text="'Create Banner'" />
+                <left-nav-list-item :to="'AllBanner'" :text="'Banner List'" />
             </left-nav-list-group>
 
             <li class="navigation-header">

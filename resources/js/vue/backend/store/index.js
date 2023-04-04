@@ -17,6 +17,7 @@ import dashboard_stat_module from './modules/dashboard_stat_module';
 import customer_modules from './modules/customer_modules';
 import supplier_modules from './modules/supplier_modules';
 import product_stock from './modules/product_stock_modules';
+import banner_modules from './modules/banner_modules';
 
 const store = new Vuex.Store({
     modules: {
@@ -33,7 +34,8 @@ const store = new Vuex.Store({
         dashboard_stat_module,
         customer_modules,
         supplier_modules,
-        product_stock
+        product_stock,
+        banner_modules,
     },
     state: {},
     getters: {},

@@ -136,6 +136,20 @@ Route::group(
                 Route::get('/{id}','Admin\Product\BrandController@show');
             });
 
+            Route::group(['prefix' => 'banner'], function () {
+                Route::get('/all','Admin\Website\BannerController@all');
+                Route::post('/store','Admin\Website\BannerController@store');
+                Route::post('/canvas-store','Admin\Website\BannerController@canvas_store');
+                Route::post('/update','Admin\Website\BannerController@update');
+                Route::post('/toggle-status','Admin\Website\BannerController@toggle_status');
+                Route::post('/canvas-update','Admin\Website\BannerController@canvas_update');
+                Route::post('/soft-delete','Admin\Website\BannerController@soft_delete');
+                Route::post('/destroy','Admin\Website\BannerController@destroy');
+                Route::post('/restore','Admin\Website\BannerController@restore');
+                Route::post('/bulk-import','Admin\Website\BannerController@bulk_import');
+                Route::get('/{id}','Admin\Website\BannerController@show');
+            });
+
             Route::group(['prefix' => 'order'], function () {
                 Route::get('/all','Admin\Order\OrderController@all');
                 Route::post('/update','Admin\Order\OrderController@update');
